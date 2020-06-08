@@ -138,7 +138,7 @@ namespace steam_dropler.Steam
                     _steamAccount.LoginKey = null;
                     _steamAccount.Save();
                 }
-                else if (callback.Result == EResult.NoConnection)
+                else if (callback.Result == EResult.NoConnection || callback.Result == EResult.RateLimitExceeded)
                 {
                     SteamServerList.SetBadServer(_serverRecord);
                     _serverRecord = SteamServerList.GetServerRecord();
