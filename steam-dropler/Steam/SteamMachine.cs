@@ -108,14 +108,14 @@ namespace steam_dropler.Steam
             if (res == EResult.OK)
             {
                 var ret = func(this);
-                LogOf();
+                LogOff();
                 return ret;
             }
-            LogOf();
+            LogOff();
             return default(T);
         }
 
-        public void LogOf()
+        public void LogOff()
         {
             Thread.Sleep(5000);
             _work = false;
@@ -128,24 +128,24 @@ namespace steam_dropler.Steam
         private async Task AddFreeLicense(List<uint> gamesIds)
         {
             var result = await _steamApps.RequestFreeLicense(gamesIds);
-            Console.WriteLine($"GrantedApps: {string.Join(",", result.GrantedApps)}");
+            Console.WriteLine($"Granted free apps: {string.Join(",", result.GrantedApps)}");
         }
 
        
 
         private async Task CheckTimeItemsList(List<(uint, ulong)> pairs)
         {
-            Console.WriteLine("TryDrop: " + DateTime.Now.ToShortTimeString());
-
             foreach (var pair in pairs)
             {
+                Console.WriteLine($"Drop process started. Account: {_client.SteamID} - Game: {pair.Item1} - Time: {DateTime.Now.ToShortTimeString()}");
+
                 CInventory_ConsumePlaytime_Request reqkf = new CInventory_ConsumePlaytime_Request
                 {
                     appid = pair.Item1,
                     itemdefid = pair.Item2
                 };
-                var responce = await _inventoryService.SendMessage(x => x.ConsumePlaytime(reqkf));
-                var result = responce.GetDeserializedResponse<CInventory_Response>();
+                var response = await _inventoryService.SendMessage(x => x.ConsumePlaytime(reqkf));
+                var result = response.GetDeserializedResponse<CInventory_Response>();
                 if (result.item_json != "[]")
                 {
                     try
@@ -163,7 +163,9 @@ namespace steam_dropler.Steam
                     }
 
 
-                    Console.WriteLine($"Item droped {_client.SteamID} game:{pair.Item1}\n{result.item_json}\n");
+                    Console.WriteLine($"Item dropped: {result.itemdef_json} game:{pair.Item1}");
+                    if (MainConfig.Config.DebugMode == 1)
+                        Console.WriteLine(result.item_json);
                 }
 
             }

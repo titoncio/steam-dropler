@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Configs\Accounts\Info.txt">
+    <None Update="Configs\Accounts\SupportedApps.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Configs\MainConfig.json">

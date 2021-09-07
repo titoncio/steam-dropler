@@ -120,12 +120,12 @@ namespace steam_dropler.Steam
                     _twoFactorAuth = _steamAccount.MobileAuth.GenerateSteamGuardCode();
                     if (_twoFactorAuth == null)
                     {
-                        Console.WriteLine($"{_steamAccount.Name}: MobileSteamGuard настроен не верно");
+                        Console.WriteLine($"{_steamAccount.Name}: MobileSteamGuard");
                     }
                 }
                 else
                 {
-                    throw new NotImplementedException("Not inplemented auth code. Only mobile auth");
+                    throw new NotImplementedException("Not implemented auth code. Only mobile auth");
                     
                 }
                 return;
@@ -144,7 +144,7 @@ namespace steam_dropler.Steam
                     _serverRecord = SteamServerList.GetServerRecord();
                 }
 
-                Console.WriteLine("Unable to logon to Steam: {0} / {1}", callback.Result, callback.ExtendedResult);
+                Console.WriteLine($"Unable to logon to Steam: {callback.Result} / {callback.ExtendedResult}");
                 return;
             }
             _steamAccount.SteamId = _client.SteamID;
@@ -160,14 +160,15 @@ namespace steam_dropler.Steam
 
         void OnLoggedOff(SteamUser.LoggedOffCallback callback)
         {
-            Console.WriteLine("Logged off of Steam: {0}", callback.Result);
+            Console.WriteLine($"Logged off from Steam: {callback.Result}");
 
         }
 
 
         void OnMachineAuth(SteamUser.UpdateMachineAuthCallback callback)
         {
-           // Console.WriteLine("Updating sentryfile...");
+           if(MainConfig.Config.DebugMode == 1)
+                Console.WriteLine("Updating sentryfile...");
 
             int fileSize;
             byte[] sentryHash;
@@ -204,7 +205,8 @@ namespace steam_dropler.Steam
                 SentryFileHash = sentryHash,
             });
 
-            //Console.WriteLine("Done!");
+            if (MainConfig.Config.DebugMode == 1)
+                Console.WriteLine("Sentryfile updated");
         }
 
     }

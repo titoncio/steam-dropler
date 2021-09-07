@@ -27,12 +27,14 @@ namespace steam_dropler
 	    {
 	        if (!Directory.Exists(MainConfig.Config.DropHistoryFolder))
 	        {
-	            Directory.CreateDirectory(MainConfig.Config.DropHistoryFolder);
+				if (MainConfig.Config.DebugMode == 1)
+					Console.WriteLine($"Creating drop history folder {MainConfig.Config.DropHistoryFolder}");
+				Directory.CreateDirectory(MainConfig.Config.DropHistoryFolder);
 	        }
 
-            using (StreamWriter sw = File.CreateText(Path.Combine(MainConfig.Config.DropHistoryFolder, accountName+".txt")))
+            using (StreamWriter sw = File.CreateText(Path.Combine(MainConfig.Config.DropHistoryFolder, $"{accountName}.txt")))
             {
-                sw.WriteLine($"{DateTime.Now}: {game} - Drop item {result.ItemDefId} ({result.ItemId})");
+                sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
             }
         }
 	}

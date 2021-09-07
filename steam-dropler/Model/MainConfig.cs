@@ -12,7 +12,7 @@ namespace steam_dropler.Model
         [JsonIgnore]
         public static MainConfig Config { get; set; }
 
-        public string MaFileFolder { get; set; }
+        public string MaFileFolder = "D:\\dropler\\steam-dropler\\Configs\\maFiles"; //Temp, just while testing
 
         public string DropHistoryFolder { get; set; }
 
@@ -22,10 +22,13 @@ namespace steam_dropler.Model
 
         public int StartTimeOut { get; set; }
 
+        public int DebugMode { get; set; }
+
         public static void Load()
         {
             var obj = JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText(ConfigPath));
             Config = obj;
+
         }
     }
 }

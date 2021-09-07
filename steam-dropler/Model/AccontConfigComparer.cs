@@ -2,9 +2,7 @@ using System.Collections.Generic;
 
 namespace steam_dropler.Model
 {
-    /// <summary>
-    /// Сравнение аккаунтов
-    /// </summary>
+
     internal class AccontConfigComparer : IEqualityComparer<AccountConfig>
     {
         public bool Equals(AccountConfig x, AccountConfig y)
