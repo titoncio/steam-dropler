@@ -1,0 +1,19 @@
+﻿Game								AppID	DefID
+
+.atorb.								467530	10
+Armello								290340	11
+Call to Arms						302670	10
+Depth								274940	214
+Immune - True Survival				348670	100
+Intralism							513510	0
+Killing Floor 2						232090	910000
+Natural Selection 2					4920	700
+PAYDAY 2							218620	1
+Ratz Instagib						338170	10
+Robot Roller-Derby Disco Dodgeball	270450	11
+Rust								252490	10
+Savage Ressurection					366440	121
+Sophisticated Puzzle				875670	1600
+Team Fortress 2						440		0
+Unturned							304930	10000
+Zombie Grinder						263920	10
