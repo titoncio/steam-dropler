@@ -1,50 +1,49 @@
-# Steam-dropler: Бот для фарма предметов
+# Steam-dropper: The easiest way to farm steam items
 
-Основаная идея основана на https://github.com/kokole/SteamItemDropIdler
-<br>Основаня реализация осуществленна с помощью https://github.com/SteamRE/SteamKit
+Based on https://github.com/kokole/SteamItemDropIdler
 
-На данный момент работатет для аккаунтов с файлами от https://github.com/Jessecar96/SteamDesktopAuthenticator, т.е .maFile
+Libraries used:
+https://github.com/SteamRE/SteamKit
+https://github.com/Jessecar96/SteamDesktopAuthenticator
 
-Так же с shared_secret (из тех же maFile)
+## Quick use
 
-## Настройка
-Для начала ставим .net runtime (https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.5-windows-hosting-bundle-installer)  или более позднию версию
+Create a file at *\steam-dropper\Configs\Accounts* using the following fields and save with the account login as the filename and json as extension:
 
-В директории бота *\Configs\Accounts создаем файлы конфигурации для ботов:
- - Имя файла должно быть именем аккаунта steam, расширение .json
- - Тело бота следующее:
- ```
-{
-  "Password":"пароль_от_акка",
-  "IdleEnable":true, //флаг того что аккаунт должен идлиться, false - бот не будет запускать дроп для этого аккаунта
-  "SharedSecret":"SDDDONDPyaBSnIJS0PjDMpImcpE=",//открытый ключ для аутентификации, если null то будет искать .maFile
-  "DropConfig":[
-    {"Item1":id_игры, "Item2":id_дропа}, 
-    {"Item1":id_игры, "Item2":id_дропа},
-    ........
-    {"Item1":id_игры, "Item2":id_дропа}//до 32 конфигов
-  ],
-  "timeConfig": { // настройки времени для аккаунта лично, приоритетнее основного конфига
-    "IdleTime": 60,//время фарма в минутах
-    "PauseBeatwinIdleTime" : 660 //время простоя до следующего фарма в минутах
-  }
-  
-}
-```
+Field | Type | Required
+------|------|---------
+Password | string | true
+SteamId | long | false
+IdleEnable | bool | true*
+LastRun | string | false
+IdleNow | bool | false
+LoginKey | string | false
+SentryHash | string | false
+SharedSecret | string | false
+DropConfig | [int/long] | true
+TimeConfig | [int/int] | true
 
-В директории бота *\Configs редактируем MainConfig.json:
- ```
-{
-  "maFileFolder": "путь до файлов maFiles",
-  "dropHistoryFolder": "директория для склада истории дропа", 
-  "parallelCount": 100 // количество одновремено запущенных аккаунтов,
-  "timeConfig": { // настройки времени для всех аккаунтов
-    "IdleTime": 60,//время фарма в минутах
-    "PauseBeatwinIdleTime" : 660 //время простоя до следующего фарма в минутах
-  }
-}
+*If the value is false the bot won't farm items
 
-```
+Create a file at *\steam-dropper\Configs\maFiles* using the following format and sabe with the same name as the previous config and maFile as extension:
+
+Field | Type | Required
+------|------|---------
+shared_secret | string | true
+serial_number | string | false
+revocation_code | string | false
+uri | string | false
+server_time | int | false
+account_name | string | false
+token_gid | string | false
+identity_secret | string | true
+secret_1 | string | false
+status | int | true
+device_id | string | true
+
+
+# Translation needed
+
 ## Как работает
 
 1. Бот каждые 30 секунд проверяет возможность запустить на идлинг новый аккаунт 
@@ -80,14 +79,6 @@
  - [ ] Автоматическое создание ботов (почта->мобильный аутентификатор)
  - [ ] Перенос функционала ArchiSteamFarm для передачи шмоток 
  - [ ] Дроп TF2
- 
-### если будет желание поблагодарить 
-yandex:410011375178916
-
-bitcoin:3M2m8hLu9w7Z4fonBESafL8SZPfq5SRYBC
-
-qiwi.com/p/79234293663
-
 
 
   
