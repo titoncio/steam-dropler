@@ -1,10 +1,10 @@
 {
-  "maFileFolder": "C:/Users/Koper/Desktop/sda/maFiles",//cahnge you folder
-  "dropHistoryFolder": "/DropHistory",//change you folder
-  "parallelCount": 100,
-  "startTimeOut": 30, 
+  "dropHistoryFolder": "D:\\dropler\\steam-dropler\\Configs\\DropHistory",
+  "ParallelCount": 100,
+  "StartTimeOut": 30,
+  "DebugMode": 0,
   "timeConfig": {
     "IdleTime": 60,
-    "PauseBeatwinIdleTime" : 660 
+    "PauseBetweenIdleTime": 660
   }
 }
