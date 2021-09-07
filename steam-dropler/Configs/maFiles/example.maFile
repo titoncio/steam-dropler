@@ -1,0 +1,13 @@
+{
+  "shared_secret": "",
+  "serial_number": "",
+  "revocation_code": "",
+  "uri": "",
+  "server_time": 0,
+  "account_name": "",
+  "token_gid": "",
+  "identity_secret": "",
+  "secret_1": "",
+  "status": 1,
+  "device_id": ""
+}

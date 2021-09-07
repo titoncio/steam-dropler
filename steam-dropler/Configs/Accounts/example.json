@@ -1,0 +1,24 @@
+{
+  "Password": "",
+  "SteamId": "",
+  "IdleEnable": true,
+  "LastRun": "",
+  "IdleNow": true,
+  "LoginKey": "",
+  "SentryHash": "",
+  "SharedSecret": null,
+  "DropConfig": [
+    {
+      "AppID": 304930,
+      "DefID": 10000
+    },
+    {
+      "AppID": 218620,
+      "DefID": 1
+    }
+  ],
+  "TimeConfig": {
+    "IdleTime": 60,
+    "PauseBeatwinIdleTime": 660
+  }
+}
