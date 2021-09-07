@@ -53,7 +53,7 @@ namespace steam_dropper
             }
 
             var steamaccount = _accounts.FirstOrDefault(t =>
-                t.LastRun < DateTime.UtcNow.AddHours(-t.TimeConfig.PauseBeatwinIdleTime) & t.IdleEnable && !t.IdleNow);
+                t.LastRun < DateTime.UtcNow.AddHours(-t.TimeConfig.PauseBetweenIdleTime) & t.IdleEnable && !t.IdleNow);
 
             if (steamaccount != null)
             {

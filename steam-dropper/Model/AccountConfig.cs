@@ -74,7 +74,7 @@ namespace steam_dropper.Model
 
 
             Name = Path.GetFileNameWithoutExtension(path);
-            TimeConfig = obj.TimeConfig ?? MainConfig.Config.TimeConfig ?? new TimeConfig {IdleTime = 60,  PauseBeatwinIdleTime = 660} ;
+            TimeConfig = obj.TimeConfig ?? MainConfig.Config.TimeConfig ?? new TimeConfig {IdleTime = 60,  PauseBetweenIdleTime = 660} ;
             FilePath = path;
         }
 

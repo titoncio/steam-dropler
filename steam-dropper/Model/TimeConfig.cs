@@ -6,6 +6,6 @@ namespace steam_dropper.Model
     {
         public int IdleTime { get; set; }
 
-        public int PauseBeatwinIdleTime { get; set; }
+        public int PauseBetweenIdleTime { get; set; }
     }
 }

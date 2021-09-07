@@ -19,6 +19,6 @@
   ],
   "TimeConfig": {
     "IdleTime": 60,
-    "PauseBeatwinIdleTime": 660
+    "PauseBetweenIdleTime": 660
   }
 }
