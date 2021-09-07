@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using steam_dropper.Model;
 using SteamKit2;
 using SteamKit2.Internal;
-using SteamKit2.Unified.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace steam_dropper.Steam
 {
@@ -22,7 +20,6 @@ namespace steam_dropper.Steam
 
         public SteamConfiguration SteamConfiguration { get; private set; }
         public bool IsConnectedAndLoggedOn => _client?.SteamID != null;
-
 
 
         private readonly AccountConfig _steamAccount;
@@ -90,7 +87,7 @@ namespace steam_dropper.Steam
                     StopGame();
                 }
 
-                
+
                 _steamAccount.IdleNow = false;
                 _steamAccount.Save();
             }
@@ -131,7 +128,7 @@ namespace steam_dropper.Steam
             Console.WriteLine($"Granted free apps: {string.Join(",", result.GrantedApps)}");
         }
 
-       
+
 
         private async Task CheckTimeItemsList(List<(uint, ulong)> pairs)
         {
@@ -155,7 +152,7 @@ namespace steam_dropper.Steam
                         {
                             Util.LogDrop(_steamAccount.Name, pair.Item1, item);
                         }
-                        
+
                     }
                     catch (Exception e)
                     {
