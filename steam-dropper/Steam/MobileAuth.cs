@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using steam_dropler.Model;
+using steam_dropper.Model;
 
-namespace steam_dropler.Steam
+namespace steam_dropper.Steam
 {
 	public class MobileAuth
 	{

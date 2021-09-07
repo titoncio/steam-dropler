@@ -1,6 +1,6 @@
 ﻿
 
-namespace steam_dropler.Model
+namespace steam_dropper.Model
 {
     public class TimeConfig
     {

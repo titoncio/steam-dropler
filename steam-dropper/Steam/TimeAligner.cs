@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Net;
 using Newtonsoft.Json;
-namespace steam_dropler.Model
+namespace steam_dropper.Model
 {
 	/// <summary>
 	/// Class to help align system time with the Steam server time. Not super advanced; probably not taking some things into account that it should.

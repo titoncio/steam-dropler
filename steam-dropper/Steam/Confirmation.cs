@@ -1,4 +1,4 @@
-﻿namespace steam_dropler.Steam
+﻿namespace steam_dropper.Steam
 {
 	public class Confirmation
 	{

@@ -1,5 +1,5 @@
 {
-  "dropHistoryFolder": "D:\\dropler\\steam-dropler\\Configs\\DropHistory",
+  "dropHistoryFolder": "D:\\dropper\\steam-dropper\\Configs\\DropHistory",
   "ParallelCount": 100,
   "StartTimeOut": 30,
   "DebugMode": 0,

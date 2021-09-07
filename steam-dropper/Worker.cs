@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using steam_dropler.Model;
-using steam_dropler.Steam;
+using steam_dropper.Model;
+using steam_dropper.Steam;
 using SteamKit2;
 using System;
 using System.Collections.Generic;
@@ -9,11 +9,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace steam_dropler
+namespace steam_dropper
 {
     public static class Worker
     {
-        private static readonly string AccountPath = "D:\\dropler\\steam-dropler\\Configs\\Accounts";
+        private static readonly string AccountPath = "D:\\dropper\\steam-dropper\\Configs\\Accounts";
 
         private static HashSet<AccountConfig> _accounts;
 

@@ -3,7 +3,7 @@ using System.Linq;
 using SteamKit2;
 using SteamKit2.Discovery;
 
-namespace steam_dropler.Steam
+namespace steam_dropper.Steam
 {
     public static class SteamServerList
     {

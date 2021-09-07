@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace steam_dropler.Steam
+namespace steam_dropper.Steam
 {
     public class DropResult
     {

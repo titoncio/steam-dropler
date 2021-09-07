@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace steam_dropler.Steam
+namespace steam_dropper.Steam
 {
 	public class SteamWeb
 	{

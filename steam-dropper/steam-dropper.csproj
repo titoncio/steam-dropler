@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>steam_dropler</RootNamespace>
+    <RootNamespace>steam_dropper</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

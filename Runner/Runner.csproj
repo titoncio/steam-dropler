@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\steam-dropler\steam-dropler.csproj" />
+    <ProjectReference Include="..\steam-dropper\steam-dropper.csproj" />
   </ItemGroup>
 
 </Project>

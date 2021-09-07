@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace steam_dropler.Model
+namespace steam_dropper.Model
 {
 
     internal class AccontConfigComparer : IEqualityComparer<AccountConfig>

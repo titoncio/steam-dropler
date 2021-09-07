@@ -3,11 +3,11 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using steam_dropler.Model;
+using steam_dropper.Model;
 using SteamKit2;
 using SteamKit2.Discovery;
 
-namespace steam_dropler.Steam
+namespace steam_dropper.Steam
 {
     public class SteamLoginHandler
     {

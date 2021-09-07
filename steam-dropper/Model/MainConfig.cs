@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 
-namespace steam_dropler.Model
+namespace steam_dropper.Model
 {
     public class MainConfig
     {
@@ -12,7 +12,7 @@ namespace steam_dropler.Model
         [JsonIgnore]
         public static MainConfig Config { get; set; }
 
-        public string MaFileFolder = "D:\\dropler\\steam-dropler\\Configs\\maFiles"; //Temp, just while testing
+        public string MaFileFolder = "D:\\dropper\\steam-dropper\\Configs\\maFiles"; //Temp, just while testing
 
         public string DropHistoryFolder { get; set; }
 

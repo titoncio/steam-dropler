@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using steam_dropler.Steam;
+using steam_dropper.Steam;
 
-namespace steam_dropler.Model
+namespace steam_dropper.Model
 {
     public class AccountConfig
     {

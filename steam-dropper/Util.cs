@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using steam_dropler.Model;
-using steam_dropler.Steam;
+using steam_dropper.Model;
+using steam_dropper.Steam;
 
-namespace steam_dropler
+namespace steam_dropper
 {
 	public class Util
 	{
