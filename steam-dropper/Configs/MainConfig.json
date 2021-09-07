@@ -4,7 +4,7 @@
   "StartTimeOut": 30,
   "DebugMode": 0,
   "timeConfig": {
-    "IdleTime": 60,
-    "PauseBetweenIdleTime": 660
+    "IdleTime": 120,
+    "PauseBetweenIdleTime": 300
   }
 }
