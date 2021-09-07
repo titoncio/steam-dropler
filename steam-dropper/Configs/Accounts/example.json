@@ -9,12 +9,12 @@
   "SharedSecret": null,
   "DropConfig": [
     {
-      "AppID": 304930,
-      "DefID": 10000
+      "Item1": 304930,
+      "Item2": 10000
     },
     {
-      "AppID": 218620,
-      "DefID": 1
+      "Item1": 218620,
+      "Item2": 1
     }
   ],
   "TimeConfig": {
