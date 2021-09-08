@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +34,7 @@ namespace steam_dropper.Steam
             _steamAccount = steamAccount;
             _client = client;
             _sUser = _client.GetHandler<SteamUser>();
+            
 
             _loginTcs = new TaskCompletionSource<EResult>();
 
@@ -41,7 +44,20 @@ namespace steam_dropper.Steam
             manager.Subscribe<SteamUser.LoggedOffCallback>(OnLoggedOff);
             manager.Subscribe<SteamUser.UpdateMachineAuthCallback>(OnMachineAuth);
             manager.Subscribe<SteamUser.LoginKeyCallback>(OnKeyCallback);
+            manager.Subscribe<SteamApps.LicenseListCallback>(LicenseListCallback);
 
+        }
+
+        public void LicenseListCallback(SteamApps.LicenseListCallback licenseList)
+        {
+            if (licenseList.Result != EResult.OK)
+            {
+                if (MainConfig.Config.DebugMode == 1)
+                    Console.WriteLine($"Unable to get license list: {licenseList.Result} ");
+                throw new Exception();
+            }
+            if (MainConfig.Config.DebugMode == 1)
+                Console.WriteLine($"Got {licenseList.LicenseList.Count} licenses for account!");            
         }
 
 
