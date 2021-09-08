@@ -1,7 +1,6 @@
 ﻿
-using System.IO;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace steam_dropper.Model
 {

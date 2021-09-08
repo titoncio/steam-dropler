@@ -144,7 +144,7 @@ namespace steam_dropper.Steam
 
                 CInventory_ConsumePlaytime_Request reqkf = new CInventory_ConsumePlaytime_Request
                 {
-                    
+
                     appid = pair.Item1,
                     itemdefid = pair.Item2
                 };
@@ -169,8 +169,8 @@ namespace steam_dropper.Steam
                         Console.WriteLine(e);
                     }
 
-                    
-                    
+
+
                 }
 
             }

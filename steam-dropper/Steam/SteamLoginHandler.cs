@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using steam_dropper.Model;
+using SteamKit2;
+using SteamKit2.Discovery;
+using System;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using steam_dropper.Model;
-using SteamKit2;
-using SteamKit2.Discovery;
 
 namespace steam_dropper.Steam
 {
@@ -30,11 +28,11 @@ namespace steam_dropper.Steam
 
         public SteamLoginHandler(AccountConfig steamAccount, SteamClient client, CallbackManager manager)
         {
-         
+
             _steamAccount = steamAccount;
             _client = client;
             _sUser = _client.GetHandler<SteamUser>();
-            
+
 
             _loginTcs = new TaskCompletionSource<EResult>();
 
@@ -57,7 +55,7 @@ namespace steam_dropper.Steam
                 throw new Exception();
             }
             if (MainConfig.Config.DebugMode == 1)
-                Console.WriteLine($"Got {licenseList.LicenseList.Count} licenses for account!");            
+                Console.WriteLine($"Got {licenseList.LicenseList.Count} licenses for account!");
         }
 
 
@@ -80,7 +78,7 @@ namespace steam_dropper.Steam
         void OnConnected(SteamClient.ConnectedCallback callback)
         {
             Console.Write("Connected to Steam! Logging in '{0}'...", _steamAccount.Name);
-            
+
             byte[] sentryHash = null;
             string loginKey = null;
             if (_steamAccount.SentryHash != null)
@@ -142,7 +140,7 @@ namespace steam_dropper.Steam
                 else
                 {
                     throw new NotImplementedException("Not implemented auth code. Only mobile auth");
-                    
+
                 }
                 return;
             }
@@ -167,7 +165,7 @@ namespace steam_dropper.Steam
             Console.WriteLine("Successfully logged on!");
             _loginTcs?.SetResult(callback.Result);
 
-            
+
 
 
 
@@ -183,7 +181,7 @@ namespace steam_dropper.Steam
 
         void OnMachineAuth(SteamUser.UpdateMachineAuthCallback callback)
         {
-           if(MainConfig.Config.DebugMode == 1)
+            if (MainConfig.Config.DebugMode == 1)
                 Console.WriteLine("Updating sentryfile...");
 
             int fileSize;

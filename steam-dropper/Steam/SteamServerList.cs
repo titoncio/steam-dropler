@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SteamKit2;
+﻿using SteamKit2;
 using SteamKit2.Discovery;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace steam_dropper.Steam
 {

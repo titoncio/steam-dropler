@@ -1,6 +1,6 @@
-﻿using System;
+﻿using steam_dropper;
+using System;
 using System.Threading;
-using steam_dropper;
 
 namespace Runner
 {
@@ -9,7 +9,8 @@ namespace Runner
         static void Main(string[] args)
         {
             var exitEvent = new ManualResetEvent(false);
-            Console.CancelKeyPress += (sender, eventArgs) => {
+            Console.CancelKeyPress += (sender, eventArgs) =>
+            {
                 eventArgs.Cancel = true;
                 exitEvent.Set();
             };
@@ -24,8 +25,8 @@ namespace Runner
                 Console.WriteLine(e);
                 throw;
             }
-            
-           
+
+
         }
     }
 }

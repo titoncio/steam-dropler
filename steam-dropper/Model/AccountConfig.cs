@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using steam_dropper.Steam;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using steam_dropper.Steam;
 
 namespace steam_dropper.Model
 {
@@ -23,8 +23,8 @@ namespace steam_dropper.Model
 
         public bool IdleNow { get; set; }
 
-		[JsonIgnore]
-		public MobileAuth MobileAuth { get; set; }
+        [JsonIgnore]
+        public MobileAuth MobileAuth { get; set; }
 
         private string FilePath { get; }
 
@@ -37,17 +37,17 @@ namespace steam_dropper.Model
         public List<(uint, ulong)> DropConfig { get; set; }
 
         [JsonIgnore]
-        public List<uint> AppIds => DropConfig?.Select(t=>t.Item1).ToList();
+        public List<uint> AppIds => DropConfig?.Select(t => t.Item1).ToList();
 
         public TimeConfig TimeConfig { get; set; }
-        
+
         public AccountConfig()
         {
         }
 
         public AccountConfig(string path)
         {
-           var obj = JsonConvert.DeserializeObject<AccountConfig>(File.ReadAllText(path));
+            var obj = JsonConvert.DeserializeObject<AccountConfig>(File.ReadAllText(path));
 
             Password = obj.Password;
             SteamId = obj.SteamId;
@@ -60,10 +60,10 @@ namespace steam_dropper.Model
             SharedSecret = obj.SharedSecret;
             if (SharedSecret != null)
             {
-                MobileAuth = new MobileAuth {SharedSecret = obj.SharedSecret};
+                MobileAuth = new MobileAuth { SharedSecret = obj.SharedSecret };
             }
 
-            if (IdleNow )
+            if (IdleNow)
             {
                 IdleNow = false;
                 if ((DateTime.UtcNow - LastRun.Value).TotalHours < 10)
@@ -74,7 +74,7 @@ namespace steam_dropper.Model
 
 
             Name = Path.GetFileNameWithoutExtension(path);
-            TimeConfig = obj.TimeConfig ?? MainConfig.Config.TimeConfig ?? new TimeConfig {IdleTime = 120,  PauseBetweenIdleTime = 300} ;
+            TimeConfig = obj.TimeConfig ?? MainConfig.Config.TimeConfig ?? new TimeConfig { IdleTime = 120, PauseBetweenIdleTime = 300 };
             FilePath = path;
         }
 
