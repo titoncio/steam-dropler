@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using steam_dropper.Model;
 using SteamKit2;
 using SteamKit2.Internal;
-using SteamKit2.Unified.Internal;
 
 namespace steam_dropper.Steam
 {
@@ -98,11 +97,8 @@ namespace steam_dropper.Steam
             return res;
         }
 
-
-
         public async Task<T> Execute<T>(Func<SteamMachine, T> func)
         {
-
             var res = await _loginHandler.Login(SteamServerList.GetServerRecord());
 
             if (res == EResult.OK)
@@ -127,20 +123,30 @@ namespace steam_dropper.Steam
 
         private async Task AddFreeLicense(List<uint> gamesIds)
         {
+            if (MainConfig.Config.DebugMode == 1)
+                Console.WriteLine("Analyzing if is necessary redeem any game");
             var result = await _steamApps.RequestFreeLicense(gamesIds);
-            Console.WriteLine($"Granted free apps: {string.Join(",", result.GrantedApps)}");
         }
 
        
 
         private async Task CheckTimeItemsList(List<(uint, ulong)> pairs)
         {
+            List<uint> FarmList = new List<uint>();
             foreach (var pair in pairs)
             {
-                Console.WriteLine($"Drop process started. Account: {_client.SteamID} - Game: {pair.Item1} - Time: {DateTime.Now.ToShortTimeString()}");
+                FarmList.Add(pair.Item1);
+            }
+            await AddFreeLicense(FarmList);
+
+
+            foreach (var pair in pairs)
+            {
+                Console.WriteLine($"Drop process started. Account: {_client.SteamID.ConvertToUInt64()} - App: {pair.Item1} - Time: {DateTime.Now.ToShortTimeString()}");
 
                 CInventory_ConsumePlaytime_Request reqkf = new CInventory_ConsumePlaytime_Request
                 {
+                    
                     appid = pair.Item1,
                     itemdefid = pair.Item2
                 };
@@ -154,18 +160,18 @@ namespace steam_dropper.Steam
                         foreach (var item in items)
                         {
                             Util.LogDrop(_steamAccount.Name, pair.Item1, item);
+                            Console.WriteLine($"Dropped! {DateTime.Now} - AppID: {pair.Item1} - Item: {item.ItemDefId} ({item.ItemId})");
+                            if (MainConfig.Config.DebugMode == 1)
+                                Console.WriteLine(result.item_json);
                         }
-                        
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
                     }
 
-
-                    Console.WriteLine($"Item dropped: {result.itemdef_json} game:{pair.Item1}");
-                    if (MainConfig.Config.DebugMode == 1)
-                        Console.WriteLine(result.item_json);
+                    
+                    
                 }
 
             }

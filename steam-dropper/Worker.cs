@@ -133,7 +133,14 @@ namespace steam_dropper
                         objects.Add(obj);
                     }
                 }
-                _mobileAuths = objects.ToDictionary(t => t.AccountName, t => t);
+                try
+                {
+                    _mobileAuths = objects.ToDictionary(t => t.AccountName, t => t);
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine(e.Data);
+                }
 
             }
             else
