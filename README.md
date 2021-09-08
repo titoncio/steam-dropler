@@ -25,7 +25,7 @@ TimeConfig | [int/int] | true
 
 *If the value is false the bot won't farm items
 
-Create a file at *\steam-dropper\Configs\maFiles* using the following format and sabe with the same name as the previous config and maFile as extension:
+Create a file at *\steam-dropper\Configs\maFiles* using the following format and save with the same name as the previous config and maFile as extension:
 
 Field | Type | Required
 ------|------|---------
