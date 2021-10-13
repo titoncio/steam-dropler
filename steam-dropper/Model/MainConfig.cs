@@ -12,7 +12,7 @@ namespace steam_dropper.Model
         [JsonIgnore]
         public static MainConfig Config { get; set; }
 
-        public string MaFileFolder = "D:\\dropper\\steam-dropper\\Configs\\maFiles"; //Temp, just while testing
+        public string MaFileFolder = @"C:\steam-dropper\Configs\maFiles"; //Temp, just while testing
 
         public string DropHistoryFolder { get; set; }
 
