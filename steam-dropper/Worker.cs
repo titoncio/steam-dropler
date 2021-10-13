@@ -13,11 +13,9 @@ namespace steam_dropper
 {
     public static class Worker
     {
-        private static readonly string AccountPath = "D:\\dropper\\steam-dropper\\Configs\\Accounts";
+        private static readonly string AccountPath = @"C:\steam-dropper\Configs\Accounts";
 
-        private static HashSet<AccountConfig> _accounts;
-
-        private static Dictionary<string, MobileAuth> _mobileAuths;
+        private static HashSet<Account> _accounts;
 
         private static readonly Dictionary<string, Task> TaskDictionary = new Dictionary<string, Task>();
 
@@ -41,7 +39,6 @@ namespace steam_dropper
             MainConfig.Load();
             LoadAccounts();
             LoadMaFiles();
-            SetMaFiles();
             Start();
         }
 
@@ -63,7 +60,7 @@ namespace steam_dropper
         }
 
 
-        private static void AddToIdlingQueue(AccountConfig account)
+        private static void AddToIdlingQueue(Account account)
         {
             var id = Guid.NewGuid().ToString();
 
@@ -93,7 +90,7 @@ namespace steam_dropper
 
         private static void LoadAccounts()
         {
-            _accounts = new HashSet<AccountConfig>(new AccontConfigComparer());
+            _accounts = new HashSet<Account>();
 
             if (Directory.Exists(AccountPath))
             {
@@ -105,7 +102,7 @@ namespace steam_dropper
                     {
                         if (MainConfig.Config.DebugMode == 1)
                             Console.WriteLine($"Adding account from {Path.GetFileName(jsonPath)}");
-                        _accounts.Add(new AccountConfig(jsonPath));
+                        _accounts.Add(new Account(jsonPath));
                     }
                 }
 
@@ -130,41 +127,16 @@ namespace steam_dropper
                         if (MainConfig.Config.DebugMode == 1)
                             Console.WriteLine($"Adding auth from {Path.GetFileName(maFile)}");
                         var obj = JsonConvert.DeserializeObject<MobileAuth>(File.ReadAllText(maFile));
-                        objects.Add(obj);
+                        _accounts.First<Account>(a => a.Name == Path.GetFileNameWithoutExtension(maFile)).MobileAuth = obj;
                     }
                 }
-                try
-                {
-                    _mobileAuths = objects.ToDictionary(t => t.AccountName, t => t);
-                }
-                catch (ArgumentException e)
-                {
-                    Console.WriteLine(e.Data);
-                }
-
             }
             else
             {
-                _mobileAuths = new Dictionary<string, MobileAuth>();
                 Console.WriteLine("MaFile folder not found");
+                throw new Exception();
             }
 
         }
-
-        private static void SetMaFiles()
-        {
-            foreach (var accountConfig in _accounts)
-            {
-                if (_mobileAuths.ContainsKey(accountConfig.Name))
-                {
-                    if (MainConfig.Config.DebugMode == 1)
-                        Console.WriteLine($"Configuring MaFile for {accountConfig.Name}");
-                    accountConfig.MobileAuth = _mobileAuths[accountConfig.Name];
-                }
-            }
-        }
-
-
-
     }
 }

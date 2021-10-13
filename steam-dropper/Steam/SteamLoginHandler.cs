@@ -19,7 +19,7 @@ namespace steam_dropper.Steam
         private string _authCode;
         private string _twoFactorAuth;
 
-        private readonly AccountConfig _steamAccount;
+        private readonly Account _steamAccount;
 
         private readonly TaskCompletionSource<EResult> _loginTcs;
 
@@ -28,7 +28,7 @@ namespace steam_dropper.Steam
         public ServerRecord ServerRecord => _serverRecord;
 
 
-        public SteamLoginHandler(AccountConfig steamAccount, SteamClient client, CallbackManager manager)
+        public SteamLoginHandler(Account steamAccount, SteamClient client, CallbackManager manager)
         {
          
             _steamAccount = steamAccount;
@@ -92,6 +92,7 @@ namespace steam_dropper.Steam
             {
                 loginKey = _steamAccount.LoginKey;
             }
+            _twoFactorAuth = _steamAccount.MobileAuth.GenerateSteamGuardCode();
             _sUser.LogOn(new SteamUser.LogOnDetails
             {
                 Username = _steamAccount.Name,
