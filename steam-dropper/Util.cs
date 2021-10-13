@@ -22,21 +22,6 @@ namespace steam_dropper
 			}
 			return ret;
 		}
-
-	    public static void LogDrop(string accountName, uint game, DropResult result)
-	    {
-	        if (!Directory.Exists(MainConfig.Config.DropHistoryFolder))
-	        {
-				if (MainConfig.Config.DebugMode == 1)
-					Console.WriteLine($"Creating drop history folder {MainConfig.Config.DropHistoryFolder}");
-				Directory.CreateDirectory(MainConfig.Config.DropHistoryFolder);
-	        }
-
-            using (StreamWriter sw = File.CreateText(Path.Combine(MainConfig.Config.DropHistoryFolder, $"{accountName}.txt")))
-            {
-                sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
-            }
-        }
 	}
 
     
