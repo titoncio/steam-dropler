@@ -157,7 +157,7 @@ namespace steam_dropper.Steam
                         var items = JsonConvert.DeserializeObject<DropResult[]>(result.item_json);
                         foreach (var item in items)
                         {
-                            Util.LogDrop(_steamAccount.Name, pair.Item1, item);
+                            Worker.LogDrop(_steamAccount.Name, pair.Item1, item);
                             Console.WriteLine($"Dropped! {DateTime.Now} - AppID: {pair.Item1} - Item: {item.ItemDefId} ({item.ItemId})");
                             if (MainConfig.Config.DebugMode == 1)
                                 Console.WriteLine(result.item_json);

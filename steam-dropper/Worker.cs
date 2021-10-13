@@ -13,7 +13,11 @@ namespace steam_dropper
 {
     public static class Worker
     {
-        private static readonly string AccountPath = @"C:\steam-dropper\Configs\Accounts";
+        private static readonly string CurrentFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        private static readonly string ConfigFolder = CurrentFolder + @"\Configs";
+        private static readonly string AccountsFolder = ConfigFolder + @"\Accounts";
+        private static readonly string MaFilesFolder = ConfigFolder + @"\maFiles";
+        private static readonly string DropHistoryFolder = CurrentFolder + @"\DropHistory";
 
         private static HashSet<Account> _accounts;
 
@@ -36,7 +40,7 @@ namespace steam_dropper
         public static void Run()
         {
             Console.WriteLine("Loading config");
-            MainConfig.Load();
+            MainConfig.Config = JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText(ConfigFolder + @"\MainConfig.json"));
             LoadAccounts();
             LoadMaFiles();
             Start();
@@ -92,9 +96,9 @@ namespace steam_dropper
         {
             _accounts = new HashSet<Account>();
 
-            if (Directory.Exists(AccountPath))
+            if (Directory.Exists(AccountsFolder))
             {
-                var jsonPaths = Directory.GetFiles(AccountPath).Where(t => Path.GetExtension(t) == ".json");
+                var jsonPaths = Directory.GetFiles(AccountsFolder).Where(t => Path.GetExtension(t) == ".json");
 
                 foreach (var jsonPath in jsonPaths)
                 {
@@ -117,9 +121,9 @@ namespace steam_dropper
         private static void LoadMaFiles()
         {
             var objects = new List<MobileAuth>();
-            if (!string.IsNullOrEmpty(MainConfig.Config.MaFileFolder) && Directory.Exists(MainConfig.Config.MaFileFolder))
+            if (!string.IsNullOrEmpty(MaFilesFolder) && Directory.Exists(MaFilesFolder))
             {
-                var maFilePaths = Directory.GetFiles(MainConfig.Config.MaFileFolder).Where(t => Path.GetExtension(t) == ".maFile");
+                var maFilePaths = Directory.GetFiles(MaFilesFolder).Where(t => Path.GetExtension(t) == ".maFile");
                 foreach (var maFile in maFilePaths)
                 {
                     if (!maFile.EndsWith("example.maFile"))
@@ -137,6 +141,30 @@ namespace steam_dropper
                 throw new Exception();
             }
 
+        }
+
+        public static void LogDrop(string accountName, uint game, DropResult result)
+        {
+            if (!Directory.Exists(DropHistoryFolder))
+            {
+                if (MainConfig.Config.DebugMode == 1)
+                    Console.WriteLine($"Creating drop history folder {DropHistoryFolder}");
+                Directory.CreateDirectory(DropHistoryFolder);
+            }
+            if (File.Exists(Path.Combine(DropHistoryFolder, $"{accountName}.txt")))
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(DropHistoryFolder, $"{accountName}.txt")))
+                {
+                    sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.CreateText(Path.Combine(DropHistoryFolder, $"{accountName}.txt")))
+                {
+                    sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
+                }
+            }
         }
     }
 }
