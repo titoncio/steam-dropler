@@ -7,7 +7,7 @@ using steam_dropper.Steam;
 
 namespace steam_dropper.Model
 {
-    public class AccountConfig
+    public class Account
     {
 
         [JsonIgnore]
@@ -41,13 +41,13 @@ namespace steam_dropper.Model
 
         public TimeConfig TimeConfig { get; set; }
         
-        public AccountConfig()
+        public Account()
         {
         }
 
-        public AccountConfig(string path)
+        public Account(string path)
         {
-           var obj = JsonConvert.DeserializeObject<AccountConfig>(File.ReadAllText(path));
+           var obj = JsonConvert.DeserializeObject<Account>(File.ReadAllText(path));
 
             Password = obj.Password;
             SteamId = obj.SteamId;

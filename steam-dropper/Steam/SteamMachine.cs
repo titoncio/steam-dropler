@@ -22,7 +22,7 @@ namespace steam_dropper.Steam
         public bool IsConnectedAndLoggedOn => _client?.SteamID != null;
 
 
-        private readonly AccountConfig _steamAccount;
+        private readonly Account _steamAccount;
         private readonly SteamLoginHandler _loginHandler;
         private readonly SteamClient _client;
         private readonly SteamApps _steamApps;
@@ -32,7 +32,7 @@ namespace steam_dropper.Steam
 
         private bool _work = true;
 
-        public SteamMachine(AccountConfig steamAccount)
+        public SteamMachine(Account steamAccount)
         {
             _client = new SteamClient();
             SteamConfiguration = _client.Configuration;
