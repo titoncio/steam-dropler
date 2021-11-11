@@ -14,7 +14,7 @@ namespace steam_dropper
 {
     public static class Worker
     {
-        private static readonly string CurrentFolder = Path.GetDirectoryName(@"D:\dropper\steam-dropper\Configs");//Assembly.GetExecutingAssembly().Location);
+        private static readonly string CurrentFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static readonly string ConfigFolder = CurrentFolder + @"\Configs";
         private static readonly string AccountsFolder = ConfigFolder + @"\Accounts";
         private static readonly string MaFilesFolder = ConfigFolder + @"\MaFiles";
