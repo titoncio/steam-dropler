@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
@@ -7,13 +8,6 @@ namespace steam_dropper.Model
 {
     public class MainConfig
     {
-        private const string ConfigPath = "Configs\\MainConfig.json";
-
-        [JsonIgnore]
-        public static MainConfig Config { get; set; }
-
-        public string MaFileFolder = @"C:\steam-dropper\Configs\maFiles"; //Temp, just while testing
-
         public string DropHistoryFolder { get; set; }
 
         public int ParallelCount { get; set; }
@@ -22,13 +16,15 @@ namespace steam_dropper.Model
 
         public int StartTimeOut { get; set; }
 
-        public int DebugMode { get; set; }
+        public DropGameList GlobalDropList { get; set; }
 
-        public static void Load()
+        public void Load(MainConfig configFile)
         {
-            var obj = JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText(ConfigPath));
-            Config = obj;
-
+            this.DropHistoryFolder = configFile.DropHistoryFolder;
+            this.ParallelCount = configFile.ParallelCount;
+            this.TimeConfig = configFile.TimeConfig;
+            this.StartTimeOut = configFile.StartTimeOut;
+            this.GlobalDropList = configFile.GlobalDropList;
         }
     }
 }

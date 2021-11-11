@@ -34,36 +34,35 @@ namespace steam_dropper.Model
 
         public string SharedSecret { get; set; }
 
-        public List<(uint, ulong)> DropConfig { get; set; }
+        public DropGameList DropList { get; set; }
 
         [JsonIgnore]
-        public List<uint> AppIds => DropConfig?.Select(t=>t.Item1).ToList();
+        public List<uint> AppIds => DropList?.Select(t=>t.AppId).ToList();
 
         public TimeConfig TimeConfig { get; set; }
-        
+
         public Account()
         {
         }
 
-        public Account(string path)
+        public Account(string path, MainConfig mainConfig)
         {
            var obj = JsonConvert.DeserializeObject<Account>(File.ReadAllText(path));
 
             Password = obj.Password;
             SteamId = obj.SteamId;
             IdleEnable = obj.IdleEnable;
-            DropConfig = obj.DropConfig ?? new List<(uint, ulong)>();
             SentryHash = obj.SentryHash;
             LoginKey = obj.LoginKey;
             IdleNow = obj.IdleNow;
             LastRun = obj.LastRun ?? DateTime.MinValue;
             SharedSecret = obj.SharedSecret;
-            if (SharedSecret != null)
-            {
-                MobileAuth = new MobileAuth {SharedSecret = obj.SharedSecret};
-            }
+            DropList = obj.DropList;
+            ImportGlobalDrop(mainConfig.GlobalDropList);
 
-            if (IdleNow )
+            MobileAuth = SharedSecret != null ? new MobileAuth { SharedSecret = obj.SharedSecret } : MobileAuth;
+
+            if (IdleNow)
             {
                 IdleNow = false;
                 if ((DateTime.UtcNow - LastRun.Value).TotalHours < 10)
@@ -72,17 +71,31 @@ namespace steam_dropper.Model
                 }
             }
 
-
             Name = Path.GetFileNameWithoutExtension(path);
-            TimeConfig = obj.TimeConfig ?? MainConfig.Config.TimeConfig ?? new TimeConfig {IdleTime = 120,  PauseBetweenIdleTime = 300} ;
+            TimeConfig = obj.TimeConfig ?? mainConfig.TimeConfig ?? new TimeConfig {IdleTime = 120,  PauseBetweenIdleTime = 300} ;
             FilePath = path;
+        }
+
+        private void ImportGlobalDrop(DropGameList globalGames)
+        {
+            if (globalGames == null)
+            {
+                Console.WriteLine("No GlobalDropConfig");
+            }
+
+            foreach (var dropConfig in globalGames)
+            {
+                if (!this.DropList.Exists(dc => dc.AppId == dropConfig.AppId))
+                {
+                    this.DropList.Add(dropConfig);
+                }
+            }
         }
 
         public void Save()
         {
-            if (MainConfig.Config.DebugMode == 1)
-                Console.WriteLine($"Updating file for account: {SteamId}");
             File.WriteAllText(FilePath, JsonConvert.SerializeObject(this));
+            
         }
 
     }
