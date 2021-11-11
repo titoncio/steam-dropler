@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -13,7 +14,12 @@ namespace steam_dropper
 {
     public static class Worker
     {
-        private static readonly string AccountPath = @"C:\steam-dropper\Configs\Accounts";
+        private static readonly string CurrentFolder = Path.GetDirectoryName(@"D:\dropper\steam-dropper\Configs");//Assembly.GetExecutingAssembly().Location);
+        private static readonly string ConfigFolder = CurrentFolder + @"\Configs";
+        private static readonly string AccountsFolder = ConfigFolder + @"\Accounts";
+        private static readonly string MaFilesFolder = ConfigFolder + @"\MaFiles";
+        private static readonly MainConfig mainConfig = new MainConfig();
+        private static Util util;
 
         private static HashSet<Account> _accounts;
 
@@ -23,11 +29,11 @@ namespace steam_dropper
 
         public static void Start()
         {
-            _timer = new Timer(1000 * MainConfig.Config.StartTimeOut);
+            _timer = new Timer(1000 * mainConfig.StartTimeOut);
             _timer.Elapsed += CheckToAdd;
             _timer.Start();
 
-            Console.WriteLine($"Login delay: {MainConfig.Config.StartTimeOut} seconds" +
+            Console.WriteLine($"Login delay: {mainConfig.StartTimeOut} seconds" +
                 $"\nTotal accounts: {_accounts.Count}" +
                 $"\nStarting accounts: {_accounts.Count(t => t.IdleEnable && t.MobileAuth?.SharedSecret != null)}");
 
@@ -35,16 +41,21 @@ namespace steam_dropper
 
         public static void Run()
         {
-            Console.WriteLine("Loading config");
-            MainConfig.Load();
+            LoadConfig();
             LoadAccounts();
             LoadMaFiles();
             Start();
         }
 
+        private static void LoadConfig()
+        {
+            mainConfig.Load(JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText(ConfigFolder + @"\MainConfig.json")));
+            util = new Util(mainConfig.DropHistoryFolder);
+        }
+
         private static void CheckToAdd(object sender, ElapsedEventArgs e)
         {
-            if (TaskDictionary.Count > MainConfig.Config.ParallelCount)
+            if (TaskDictionary.Count > mainConfig.ParallelCount)
             {
                 return;
             }
@@ -92,17 +103,15 @@ namespace steam_dropper
         {
             _accounts = new HashSet<Account>();
 
-            if (Directory.Exists(AccountPath))
+            if (Directory.Exists(AccountsFolder))
             {
-                var jsonPaths = Directory.GetFiles(AccountPath).Where(t => Path.GetExtension(t) == ".json");
+                var jsonPaths = Directory.GetFiles(AccountsFolder).Where(t => Path.GetExtension(t) == ".json");
 
                 foreach (var jsonPath in jsonPaths)
                 {
                     if (!jsonPath.EndsWith("example.json"))
                     {
-                        if (MainConfig.Config.DebugMode == 1)
-                            Console.WriteLine($"Adding account from {Path.GetFileName(jsonPath)}");
-                        _accounts.Add(new Account(jsonPath));
+                        _accounts.Add(new Account(jsonPath, mainConfig));
                     }
                 }
 
@@ -117,15 +126,13 @@ namespace steam_dropper
         private static void LoadMaFiles()
         {
             var objects = new List<MobileAuth>();
-            if (!string.IsNullOrEmpty(MainConfig.Config.MaFileFolder) && Directory.Exists(MainConfig.Config.MaFileFolder))
+            if (!string.IsNullOrEmpty(MaFilesFolder) && Directory.Exists(MaFilesFolder))
             {
-                var maFilePaths = Directory.GetFiles(MainConfig.Config.MaFileFolder).Where(t => Path.GetExtension(t) == ".maFile");
+                var maFilePaths = Directory.GetFiles(MaFilesFolder).Where(t => Path.GetExtension(t) == ".maFile");
                 foreach (var maFile in maFilePaths)
                 {
                     if (!maFile.EndsWith("example.maFile"))
                     {
-                        if (MainConfig.Config.DebugMode == 1)
-                            Console.WriteLine($"Adding auth from {Path.GetFileName(maFile)}");
                         var obj = JsonConvert.DeserializeObject<MobileAuth>(File.ReadAllText(maFile));
                         _accounts.First<Account>(a => a.Name == Path.GetFileNameWithoutExtension(maFile)).MobileAuth = obj;
                     }
