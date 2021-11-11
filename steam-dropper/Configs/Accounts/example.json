@@ -8,14 +8,14 @@
   "LoginKey": "",
   "SentryHash": "",
   "SharedSecret": null,
-  "DropConfig": [
+  "DropList": [
     {
-      "Item1": 304930,
-      "Item2": 10000
+      "AppId": 304930,
+      "DefId": 10000
     },
     {
-      "Item1": 218620,
-      "Item2": 1
+      "AppId": 218620,
+      "DefId": 1
     }
   ],
   "TimeConfig": {

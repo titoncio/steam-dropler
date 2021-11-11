@@ -1,10 +1,40 @@
 {
-  "dropHistoryFolder": "D:\\dropper\\steam-dropper\\Configs\\DropHistory",
   "ParallelCount": 100,
-  "StartTimeOut": 30,
-  "DebugMode": 0,
+  "StartTimeOut": 3,
   "TimeConfig": {
     "IdleTime": 120,
     "PauseBetweenIdleTime": 300
-  }
+  },
+  "GlobalDropList": [
+    {
+      "AppId": 304930,
+      "DefId": 10000,
+      "Strat": 0
+    },
+    {
+      "AppId": 218620,
+      "DefId": 1,
+      "Strat": 0
+    },
+    {
+      "AppId": 843660,
+      "DefId": 1,
+      "Strat": 0
+    },
+    {
+      "AppId": 964040,
+      "DefId": 0,
+      "Strat": 0
+    },
+    {
+      "AppId": 353130,
+      "DefId": 0,
+      "Strat": 0
+    },
+    {
+      "AppId": 1067810,
+      "DefId": 9,
+      "Strat": 1
+    }
+  ]
 }
