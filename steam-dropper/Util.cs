@@ -7,6 +7,12 @@ namespace steam_dropper
 {
 	public class Util
 	{
+		private static string DropHistoryFolder;
+        public Util(string dropHistoryFolder)
+        {
+			DropHistoryFolder = dropHistoryFolder;
+        }
+
 		public static long GetSystemUnixTime()
 		{
 			return (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -25,14 +31,12 @@ namespace steam_dropper
 
 	    public static void LogDrop(string accountName, uint game, DropResult result)
 	    {
-	        if (!Directory.Exists(MainConfig.Config.DropHistoryFolder))
+	        if (!Directory.Exists(DropHistoryFolder))
 	        {
-				if (MainConfig.Config.DebugMode == 1)
-					Console.WriteLine($"Creating drop history folder {MainConfig.Config.DropHistoryFolder}");
-				Directory.CreateDirectory(MainConfig.Config.DropHistoryFolder);
+				Directory.CreateDirectory(DropHistoryFolder);
 	        }
 
-            using (StreamWriter sw = File.CreateText(Path.Combine(MainConfig.Config.DropHistoryFolder, $"{accountName}.txt")))
+            using (StreamWriter sw = File.CreateText(Path.Combine(DropHistoryFolder, $"{accountName}.txt")))
             {
                 sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
             }
