@@ -8,33 +8,27 @@
   "GlobalDropList": [
     {
       "AppId": 304930,
-      "DefId": 10000,
-      "Strat": 0
+      "DefId": 10000
     },
     {
       "AppId": 218620,
-      "DefId": 1,
-      "Strat": 0
+      "DefId": 1
     },
     {
       "AppId": 843660,
-      "DefId": 1,
-      "Strat": 0
+      "DefId": 1
     },
     {
       "AppId": 964040,
-      "DefId": 0,
-      "Strat": 0
+      "DefId": 0
     },
     {
       "AppId": 353130,
-      "DefId": 0,
-      "Strat": 0
+      "DefId": 0
     },
     {
       "AppId": 1067810,
-      "DefId": 9,
-      "Strat": 1
+      "DefId": 9
     }
   ]
 }
