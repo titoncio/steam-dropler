@@ -18,6 +18,7 @@ namespace steam_dropper
         private static readonly string ConfigFolder = CurrentFolder + @"\Configs";
         private static readonly string AccountsFolder = ConfigFolder + @"\Accounts";
         private static readonly string MaFilesFolder = ConfigFolder + @"\MaFiles";
+        private static readonly string DropHistoryFolder = ConfigFolder + @"\DropHistory";
         private static readonly MainConfig mainConfig = new MainConfig();
         private static Util util;
 
@@ -50,7 +51,7 @@ namespace steam_dropper
         private static void LoadConfig()
         {
             mainConfig.Load(JsonConvert.DeserializeObject<MainConfig>(File.ReadAllText(ConfigFolder + @"\MainConfig.json")));
-            util = new Util(mainConfig.DropHistoryFolder);
+            util = new Util(DropHistoryFolder);
         }
 
         private static void CheckToAdd(object sender, ElapsedEventArgs e)

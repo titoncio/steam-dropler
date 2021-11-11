@@ -1,6 +1,6 @@
 {
   "ParallelCount": 100,
-  "StartTimeOut": 3,
+  "StartTimeOut": 30,
   "TimeConfig": {
     "IdleTime": 120,
     "PauseBetweenIdleTime": 300

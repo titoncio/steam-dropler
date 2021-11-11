@@ -8,10 +8,10 @@ namespace steam_dropper
 	public class Util
 	{
 		private static string DropHistoryFolder;
-        public Util(string dropHistoryFolder)
-        {
+		public Util(string dropHistoryFolder)
+		{
 			DropHistoryFolder = dropHistoryFolder;
-        }
+		}
 
 		public static long GetSystemUnixTime()
 		{
@@ -29,22 +29,19 @@ namespace steam_dropper
 			return ret;
 		}
 
-	    public static void LogDrop(string accountName, uint game, DropResult result)
-	    {
-	        if (!Directory.Exists(DropHistoryFolder))
-	        {
+		public static void LogDrop(string accountName, uint game, DropResult result)
+		{
+			if (!Directory.Exists(DropHistoryFolder))
+			{
 				Directory.CreateDirectory(DropHistoryFolder);
-	        }
+			}
 
-            using (StreamWriter sw = File.CreateText(Path.Combine(DropHistoryFolder, $"{accountName}.txt")))
-            {
-                sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
-            }
-        }
+			using (StreamWriter sw = File.CreateText(Path.Combine(DropHistoryFolder, $"{accountName}.txt")))
+			{
+				sw.WriteLine($"Dropped! {DateTime.Now} - AppID: {game} - Item: {result.ItemDefId} ({result.ItemId})");
+			}
+		}
 	}
-
-    
-
 
 	public static class APIEndpoints
 	{

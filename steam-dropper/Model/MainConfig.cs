@@ -8,8 +8,6 @@ namespace steam_dropper.Model
 {
     public class MainConfig
     {
-        public string DropHistoryFolder { get; set; }
-
         public int ParallelCount { get; set; }
 
         public TimeConfig TimeConfig { get; set; }
@@ -20,7 +18,6 @@ namespace steam_dropper.Model
 
         public void Load(MainConfig configFile)
         {
-            this.DropHistoryFolder = configFile.DropHistoryFolder;
             this.ParallelCount = configFile.ParallelCount;
             this.TimeConfig = configFile.TimeConfig;
             this.StartTimeOut = configFile.StartTimeOut;

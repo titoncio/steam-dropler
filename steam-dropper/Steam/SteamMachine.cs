@@ -141,9 +141,6 @@ namespace steam_dropper.Steam
                 var result = response.GetDeserializedResponse<CInventory_Response>();
                 if (result.item_json != "[]")
                 {
-                    Console.WriteLine("Dropped item, info:");
-                    Console.WriteLine(result.item_json);
-
                     try
                     {
                         var items = JsonConvert.DeserializeObject<DropResult[]>(result.item_json);
