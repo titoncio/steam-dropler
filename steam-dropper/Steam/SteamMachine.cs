@@ -28,7 +28,7 @@ namespace steam_dropper.Steam
         private readonly SteamApps _steamApps;
 
         private readonly SteamUnifiedMessages.UnifiedService<IInventory> _inventoryService;
-        private readonly SteamUnifiedMessages.UnifiedService<IDeviceAuth> _deviceService;
+        //private readonly SteamUnifiedMessages.UnifiedService<IDeviceAuth> _deviceService;
 
         private bool _work = true;
 
@@ -38,14 +38,12 @@ namespace steam_dropper.Steam
             SteamConfiguration = _client.Configuration;
             var manager = new CallbackManager(_client);
 
-
             var steamUnifiedMessages = _client.GetHandler<SteamUnifiedMessages>();
             _inventoryService = steamUnifiedMessages.CreateService<IInventory>();
-            _deviceService = steamUnifiedMessages.CreateService<IDeviceAuth>();
+            //_deviceService = steamUnifiedMessages.CreateService<IDeviceAuth>();
             _steamAccount = steamAccount;
             _loginHandler = new SteamLoginHandler(_steamAccount, _client, manager);
             _steamApps = _client.GetHandler<SteamApps>();
-
 
             Task.Run(() =>
             {
@@ -61,7 +59,6 @@ namespace steam_dropper.Steam
 
         public async Task<EResult> EasyIdling()
         {
-
             var res = await _loginHandler.Login(SteamServerList.GetServerRecord());
 
             if (res == EResult.OK)
@@ -75,18 +72,15 @@ namespace steam_dropper.Steam
 
                 if (appId.Any())
                 {
-
-
                     for (int i = 0; i < _steamAccount.TimeConfig.IdleTime / 30; i++)
                     {
                         PlayGames(appId);
-                        await CheckTimeItemsList(_steamAccount.DropConfig);
+                        await CheckTimeItemsList(_steamAccount.DropList);
                         Thread.Sleep(1000 * 60 * 30);
                     }
-                    await CheckTimeItemsList(_steamAccount.DropConfig);
+                    await CheckTimeItemsList(_steamAccount.DropList);
                     StopGame();
                 }
-
 
                 _steamAccount.IdleNow = false;
                 _steamAccount.Save();
@@ -121,46 +115,42 @@ namespace steam_dropper.Steam
 
         private async Task AddFreeLicense(List<uint> gamesIds)
         {
-            if (MainConfig.Config.DebugMode == 1)
-                Console.WriteLine("Analyzing if is necessary redeem any game");
             var result = await _steamApps.RequestFreeLicense(gamesIds);
         }
 
-
-
-        private async Task CheckTimeItemsList(List<(uint, ulong)> pairs)
+        private async Task CheckTimeItemsList(DropGameList pairs)
         {
             List<uint> FarmList = new List<uint>();
             foreach (var pair in pairs)
             {
-                FarmList.Add(pair.Item1);
+                FarmList.Add(pair.AppId);
             }
             await AddFreeLicense(FarmList);
 
 
             foreach (var pair in pairs)
             {
-                Console.WriteLine($"Drop process started. Account: {_client.SteamID.ConvertToUInt64()} - App: {pair.Item1} - Time: {DateTime.Now.ToShortTimeString()}");
+                Console.WriteLine($"Drop process started. Account: {_client.SteamID.ConvertToUInt64()} - App: {pair.AppId} - Time: {DateTime.Now.ToShortTimeString()}");
 
                 CInventory_ConsumePlaytime_Request reqkf = new CInventory_ConsumePlaytime_Request
                 {
-                    
-                    appid = pair.Item1,
-                    itemdefid = pair.Item2
+                    appid = pair.AppId,
+                    itemdefid = pair.DefId
                 };
                 var response = await _inventoryService.SendMessage(x => x.ConsumePlaytime(reqkf));
                 var result = response.GetDeserializedResponse<CInventory_Response>();
                 if (result.item_json != "[]")
                 {
+                    Console.WriteLine("Dropped item, info:");
+                    Console.WriteLine(result.item_json);
+
                     try
                     {
                         var items = JsonConvert.DeserializeObject<DropResult[]>(result.item_json);
                         foreach (var item in items)
                         {
-                            Util.LogDrop(_steamAccount.Name, pair.Item1, item);
-                            Console.WriteLine($"Dropped! {DateTime.Now} - AppID: {pair.Item1} - Item: {item.ItemDefId} ({item.ItemId})");
-                            if (MainConfig.Config.DebugMode == 1)
-                                Console.WriteLine(result.item_json);
+                            Util.LogDrop(_steamAccount.Name, pair.AppId, item);
+                            Console.WriteLine($"Dropped! {DateTime.Now} - AppID: {pair.AppId} - Item: {item.ItemDefId} ({item.ItemId})");
                         }
 
                     }
@@ -190,10 +180,8 @@ namespace steam_dropper.Steam
         {
             var games = new ClientMsgProtobuf<CMsgClientGamesPlayed>(EMsg.ClientGamesPlayed);
 
-
             foreach (var gameId in gamesIds)
             {
-
                 games.Body.games_played.Add(new CMsgClientGamesPlayed.GamePlayed
                 {
                     game_id = new GameID(gameId),
@@ -203,8 +191,6 @@ namespace steam_dropper.Steam
             _client.Send(games);
 
         }
-
-
 
     }
 }
