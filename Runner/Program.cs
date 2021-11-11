@@ -24,8 +24,6 @@ namespace Runner
                 Console.WriteLine(e);
                 throw;
             }
-            
-           
         }
     }
 }
