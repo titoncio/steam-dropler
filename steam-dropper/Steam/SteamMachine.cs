@@ -68,17 +68,22 @@ namespace steam_dropper.Steam
                 _steamAccount.IdleNow = true;
                 _steamAccount.Save();
 
-                var appId = _steamAccount.AppIds;
+                List<uint> appId = new List<uint>();
+
+                foreach (var app in _steamAccount.DropGameList)
+                {
+                    appId.Add(app.AppId);
+                }
 
                 if (appId.Any())
                 {
                     for (int i = 0; i < _steamAccount.TimeConfig.IdleTime / 30; i++)
                     {
                         PlayGames(appId);
-                        await CheckTimeItemsList(_steamAccount.DropList);
+                        await CheckTimeItemsList(_steamAccount.DropGameList);
                         Thread.Sleep(1000 * 60 * 30);
                     }
-                    await CheckTimeItemsList(_steamAccount.DropList);
+                    await CheckTimeItemsList(_steamAccount.DropGameList);
                     StopGame();
                 }
 

@@ -91,7 +91,7 @@ namespace steam_dropper.Steam
             _twoFactorAuth = _steamAccount.MobileAuth.GenerateSteamGuardCode();
             _sUser.LogOn(new SteamUser.LogOnDetails
             {
-                Username = _steamAccount.Name,
+                Username = _steamAccount.Login,
                 Password = _steamAccount.Password,
                 LoginKey = loginKey,
                 AuthCode = _authCode,
