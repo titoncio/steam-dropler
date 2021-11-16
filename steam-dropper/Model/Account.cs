@@ -13,11 +13,13 @@ namespace steam_dropper.Model
         [JsonIgnore]
         public string Name { get; set; }
 
+        public string Login { get; set; }
+
         public string Password { get; set; }
 
         public ulong? SteamId { get; set; }
 
-        public bool IdleEnable { get; set; }
+        public bool IdleEnable { get; set; } = true;
 
         public DateTime? LastRun { get; set; }
 
@@ -33,17 +35,13 @@ namespace steam_dropper.Model
         public byte[] SentryHash { get; set; }
 
         public string SharedSecret { get; set; }
-
+        
         public DropGameList DropList { get; set; }
 
         [JsonIgnore]
-        public List<uint> AppIds => DropList?.Select(t=>t.AppId).ToList();
+        public DropGameList DropGameList {  get; set; }
 
         public TimeConfig TimeConfig { get; set; }
-
-        public Account()
-        {
-        }
 
         public Account(string path, MainConfig mainConfig)
         {
@@ -57,7 +55,7 @@ namespace steam_dropper.Model
             IdleNow = obj.IdleNow;
             LastRun = obj.LastRun ?? DateTime.MinValue;
             SharedSecret = obj.SharedSecret;
-            DropList = obj.DropList;
+            DropGameList = obj.DropList;
             ImportGlobalDrop(mainConfig.GlobalDropList);
 
             MobileAuth = SharedSecret != null ? new MobileAuth { SharedSecret = obj.SharedSecret } : MobileAuth;
@@ -85,15 +83,16 @@ namespace steam_dropper.Model
 
             foreach (var dropConfig in globalGames)
             {
-                if (!this.DropList.Exists(dc => dc.AppId == dropConfig.AppId))
+                if (!this.DropGameList.Exists(dc => dc.AppId == dropConfig.AppId))
                 {
-                    this.DropList.Add(dropConfig);
+                    this.DropGameList.Add(dropConfig);
                 }
             }
         }
 
         public void Save()
         {
+            var jsonSetting = new JsonSerializerSettings();
             File.WriteAllText(FilePath, JsonConvert.SerializeObject(this));
             
         }
