@@ -92,7 +92,6 @@ namespace steam_dropper.Model
 
         public void Save()
         {
-            var jsonSetting = new JsonSerializerSettings();
             File.WriteAllText(FilePath, JsonConvert.SerializeObject(this));
             
         }
