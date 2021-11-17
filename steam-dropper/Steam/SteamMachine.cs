@@ -65,7 +65,6 @@ namespace steam_dropper.Steam
             {
 
                 _steamAccount.LastRun = DateTime.UtcNow;
-                _steamAccount.IdleNow = true;
                 _steamAccount.Save();
 
                 List<uint> appId = new List<uint>();
@@ -87,7 +86,6 @@ namespace steam_dropper.Steam
                     StopGame();
                 }
 
-                _steamAccount.IdleNow = false;
                 _steamAccount.Save();
             }
 
